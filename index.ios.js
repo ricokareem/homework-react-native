@@ -5,14 +5,6 @@
 'use strict';
 
 var React = require('react-native');
-/**
- * For quota reasons we replaced the Rotten Tomatoes' API with a sample data of
- * their very own API that lives in React Native's Github repo.
- */
-var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
-var MOCKED_MOVIES_DATA = [
-  {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
-];
 var {
   AppRegistry,
   Image,
@@ -21,6 +13,12 @@ var {
   Text,
   View,
 } = React;
+
+var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
+var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
+var PAGE_SIZE = 25;
+var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
+var REQUEST_URL = API_URL + PARAMS;
 
 var AwesomeProject = React.createClass({
   getInitialState: function() {
@@ -31,9 +29,11 @@ var AwesomeProject = React.createClass({
       loaded: false,
     };
   },
+
   componentDidMount: function() {
     this.fetchData();
   },
+
   fetchData: function() {
     fetch(REQUEST_URL)
       .then((response) => response.json())
@@ -94,10 +94,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
   rightContainer: {
     flex: 1,
   },
@@ -108,6 +104,10 @@ var styles = StyleSheet.create({
   },
   year: {
     textAlign: 'center',
+  },
+  thumbnail: {
+    width: 53,
+    height: 81,
   },
   listView: {
     paddingTop: 20,
